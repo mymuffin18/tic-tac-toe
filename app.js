@@ -86,6 +86,8 @@ function play(coord) {
 	console.log(mapStatePointer);
 	winPatterns(map);
 
+	checkIfNoOneWins(map);
+
 	if (currentPlayer === 'X') {
 		currentPlayer = 'O';
 	} else {
@@ -139,7 +141,7 @@ function reset() {
 	mapState = [];
 	mapStatePointer = -1;
 	currentPlayer = 'X';
-	buttonsDiv.classList.toggle('hide');
+	buttonsDiv.classList.add('hide');
 	nextButton.disabled = true;
 	winLabel.textContent = '';
 	win = false;
@@ -156,11 +158,11 @@ function horizontalSearch(arr) {
 		if (arr[i].every((element) => element === 'X')) {
 			winLabel.textContent = 'Player 1 wins!';
 			win = true;
-			buttonsDiv.classList.remove('hide');
+			buttonsDiv.classList.toggle('hide');
 		} else if (arr[i].every((element) => element === 'O')) {
 			winLabel.textContent = 'Player 2 wins!';
 			win = true;
-			buttonsDiv.classList.remove('hide');
+			buttonsDiv.classList.toggle('hide');
 		}
 	}
 }
@@ -168,11 +170,11 @@ function genHorizontalSearch(arr) {
 	if (arr.every((element) => element === 'X')) {
 		winLabel.textContent = 'Player 1 wins!';
 		win = true;
-		buttonsDiv.classList.remove('hide');
+		buttonsDiv.classList.toggle('hide');
 	} else if (arr.every((element) => element === 'O')) {
 		winLabel.textContent = 'Player 2 wins!';
 		win = true;
-		buttonsDiv.classList.remove('hide');
+		buttonsDiv.classList.toggle('hide');
 	}
 }
 
@@ -202,6 +204,20 @@ function diagonalSearch(arr) {
 	}
 	genHorizontalSearch(tmpArr2);
 }
+
+function checkIfNoOneWins(arr) {
+	if (
+		arr[0].every((element) => element !== '') &&
+		arr[1].every((element) => element !== '') &&
+		arr[2].every((element) => element !== '')
+	) {
+		winLabel.textContent = 'No one wins :(';
+		win = true;
+		buttonsDiv.classList.toggle('hide');
+	}
+	return;
+}
+
 function draw() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	drawBoard();
@@ -245,6 +261,7 @@ function draw() {
 	}
 
 	function drawX() {
+		ctx.strokeStyle = 'red';
 		ctx.beginPath();
 		ctx.moveTo(-cellSize / 3, -cellSize / 3);
 		ctx.lineTo(cellSize / 3, cellSize / 3);

@@ -36,3 +36,7 @@ button {
 .hide {
 	display: none;
 }
+
+.reset-div {
+	padding-top: 1rem;
+}
