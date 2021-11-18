@@ -9,6 +9,11 @@ const prevButton = document.getElementById('previous-button');
 const resetButton = document.getElementById('reset-button');
 const buttonsDiv = document.querySelector('.buttons');
 
+const xButton = document.getElementById('x-button');
+const oButton = document.getElementById('o-button');
+
+const introDiv = document.querySelector('.intro');
+const container = document.querySelector('.container');
 let win = false;
 
 let map = [
@@ -143,8 +148,11 @@ function reset() {
 	currentPlayer = 'X';
 	buttonsDiv.classList.add('hide');
 	nextButton.disabled = true;
+	prevButton.disabled = false;
 	winLabel.textContent = '';
 	win = false;
+	introDiv.style.display = 'flex';
+	container.classList.toggle('hide');
 }
 
 function winPatterns(arr) {
@@ -156,11 +164,11 @@ function winPatterns(arr) {
 function horizontalSearch(arr) {
 	for (let i = 0; i < arr.length; i++) {
 		if (arr[i].every((element) => element === 'X')) {
-			winLabel.textContent = 'Player 1 wins!';
+			winLabel.textContent = 'O wins!';
 			win = true;
 			buttonsDiv.classList.toggle('hide');
 		} else if (arr[i].every((element) => element === 'O')) {
-			winLabel.textContent = 'Player 2 wins!';
+			winLabel.textContent = 'O wins!';
 			win = true;
 			buttonsDiv.classList.toggle('hide');
 		}
@@ -168,11 +176,11 @@ function horizontalSearch(arr) {
 }
 function genHorizontalSearch(arr) {
 	if (arr.every((element) => element === 'X')) {
-		winLabel.textContent = 'Player 1 wins!';
+		winLabel.textContent = 'X wins!';
 		win = true;
 		buttonsDiv.classList.toggle('hide');
 	} else if (arr.every((element) => element === 'O')) {
-		winLabel.textContent = 'Player 2 wins!';
+		winLabel.textContent = 'O wins!';
 		win = true;
 		buttonsDiv.classList.toggle('hide');
 	}
@@ -209,7 +217,8 @@ function checkIfNoOneWins(arr) {
 	if (
 		arr[0].every((element) => element !== '') &&
 		arr[1].every((element) => element !== '') &&
-		arr[2].every((element) => element !== '')
+		arr[2].every((element) => element !== '') &&
+		win === false
 	) {
 		winLabel.textContent = 'No one wins :(';
 		win = true;
@@ -303,5 +312,19 @@ function drawLine(x, y, width, height) {
 	ctx.stroke();
 }
 
-// mapState.push(map);
+function startGame() {
+	introDiv.style.display = 'none';
+	container.classList.toggle('hide');
+}
+
+xButton.addEventListener('click', (e) => {
+	currentPlayer = 'X';
+	startGame();
+});
+
+oButton.addEventListener('click', (e) => {
+	currentPlayer = 'O';
+	startGame();
+});
+
 draw();

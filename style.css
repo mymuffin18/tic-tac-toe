@@ -40,3 +40,15 @@ button {
 .reset-div {
 	padding-top: 1rem;
 }
+
+.intro {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.intro .title {
+	text-align: center;
+	padding-top: 2rem;
+}
